@@ -57,4 +57,40 @@ const updateBook = async (bookId, newTitle, newAuthor, newPublicationYear, newQu
     loggerEmitter.emit("edit-book", bookId);
 };
 
-export { getAllBooks, createBook, getBookById, updateBook };
+const deleteBook = async bookId => {
+    const books = await getAllBooks();
+
+    const updatedBooks = books.filter(book => book.id !== bookId);
+
+    if (books.length === updatedBooks.length)
+       throw new Error("Can't delete book! Book not found!");
+
+    await saveBooks(updatedBooks);
+
+    loggerEmitter.emit("delete-book", bookId)
+};
+
+const deleteAllBooks = async () => {
+    await saveBooks([]);
+};
+
+const app = async () => {
+    try {
+        await updateBook(
+            "2",
+            "To Kill a Mockingbird",
+            "Harper Lee",
+            1960,
+            8
+        );
+
+        await deleteBook(2);
+
+        const books = await getAllBooks();
+        console.log(users);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export { getAllBooks, createBook, getBookById, updateBook, deleteBook, deleteAllBooks };
