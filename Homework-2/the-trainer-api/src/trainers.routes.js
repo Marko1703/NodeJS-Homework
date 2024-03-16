@@ -58,24 +58,27 @@ trainerRouter.patch("/:id", async (req, res) => {
   });
 
 // Add Trainer
-trainerRouter.post("/", async (req, res) => {
-    try {
-      const requiredFields = [ firstName, lastName, email, isCurrentlyTeaching, timeEmplyed, coursesFinished ];
-  
-      const missingFields = requiredFields.filter(field => !req.body[field] || req.body[field] === "");
-      if (missingFields.length) {
-         throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-      }
-  
-      const newTrainer = await addTrainer(firstName, lastName, email, isCurrentlyTeaching, timeEmplyed, coursesFinished);
-  
-      //201 is status that means something new was created in the backend
-      return res.status(201).json(newTrainer);
-    } catch (error) {
-      console.log(error);
-      //400 is bad request
-      return res.status(400).json({ msg: error.message });
+trainerRouter.post("/:firstName/:lastName/:email/:isCurrentlyTeaching/:timeEmplyed/:coursesFinished", async (req, res) => {
+  try {
+    const { firstName, lastName, email, isCurrentlyTeaching, timeEmplyed, coursesFinished } = req.params;
+
+    const requiredFields = ['firstName', 'lastName', 'email', 'isCurrentlyTeaching', 'timeEmplyed', 'coursesFinished'];
+
+    const missingFields = requiredFields.filter(field => !req.params[field] || req.params[field] === "");
+    if (missingFields.length) {
+       throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
     }
+
+    const newTrainer = await addTrainer(firstName, lastName, email, isCurrentlyTeaching, timeEmplyed, coursesFinished);
+    console.log(newTrainer);
+
+    //201 is status that means something new was created in the backend
+    return res.status(201).json(newTrainer);
+  } catch (error) {
+    console.log(error);
+    //400 is bad request
+    return res.status(400).json({ msg: error.message });
+  }
 });
 
 //5. Delete Trainer
