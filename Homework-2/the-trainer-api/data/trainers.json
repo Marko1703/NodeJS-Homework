@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "firstName": "Borche",
+        "lastName": "Borisovski",
+        "email": "borisovski.borce@gmail.com",
+        "isCurrentlyTeaching": true,
+        "timeEmployed": "3 years",
+        "coursesFinished": 5
+    },
+    {
+        "id": "2",
+        "firstName": "Ivan",
+        "lastName": "Apostolovski",
+        "email": "ivan.apostolovski@gmail.com",
+        "isCurrentlyTeaching": true,
+        "timeEmployed": "1 year",
+        "coursesFinished": 3
+    }
+]
